@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense Rabbit — Business Travel Expense Tracker</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: #1a1a1a;
+      background: #fff;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2rem;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .nav-logo .icon {
+      width: 32px;
+      height: 32px;
+      background: #1a1a1a;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 16px;
+    }
+    .nav-link {
+      font-size: 0.9rem;
+      color: #555;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: #1a1a1a; }
+
+    /* HERO */
+    .hero {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 6rem 2rem 4rem;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: #555;
+      border: 1px solid #e0e0e0;
+      border-radius: 999px;
+      padding: 4px 14px;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: #555;
+      max-width: 480px;
+      margin: 0 auto 2.5rem;
+    }
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      border: none;
+    }
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn-primary { background: #1a1a1a; color: #fff; }
+    .btn-secondary { background: #f4f4f4; color: #1a1a1a; }
+
+    /* APP PREVIEW */
+    .preview {
+      max-width: 760px;
+      margin: 3rem auto 0;
+      padding: 0 2rem;
+    }
+    .preview-card {
+      background: #f8f8f8;
+      border: 1px solid #eee;
+      border-radius: 16px;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+    }
+    .stat-card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: #888;
+      margin-bottom: 4px;
+    }
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+    .stat-sub {
+      font-size: 0.78rem;
+      color: #aaa;
+      margin-top: 2px;
+    }
+
+    /* FEATURES */
+    .features {
+      max-width: 760px;
+      margin: 6rem auto;
+      padding: 0 2rem;
+    }
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: #aaa;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .features h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .feature-item {
+      padding: 1.5rem;
+      border: 1px solid #f0f0f0;
+      border-radius: 12px;
+    }
+    .feature-icon {
+      font-size: 1.4rem;
+      margin-bottom: 0.75rem;
+    }
+    .feature-item h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .feature-item p {
+      font-size: 0.88rem;
+      color: #666;
+      line-height: 1.55;
+    }
+
+    /* CTA */
+    .cta {
+      text-align: center;
+      padding: 5rem 2rem;
+      background: #fafafa;
+      border-top: 1px solid #f0f0f0;
+    }
+    .cta h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+    .cta p { font-size: 1rem; color: #666; margin-bottom: 2rem; }
+
+    /* FOOTER */
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1.5rem 2rem;
+      border-top: 1px solid #f0f0f0;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+    footer a { color: #888; }
+    footer a:hover { color: #1a1a1a; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">
+      <div class="icon">🐰</div>
+      Expense Rabbit
+    </div>
+    <a href="privacy.html" class="nav-link">Privacy Policy</a>
+  </nav>
+
+  <section class="hero">
+    <div class="badge">Now available on Mac</div>
+    <h1>Track business travel expenses effortlessly</h1>
+    <p>Expense Rabbit helps you log, categorize, and export expenses while traveling — with multi-currency support and CloudKit sync.</p>
+    <div class="btn-group">
+      <a href="#" class="btn btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Download for Mac
+      </a>
+      <a href="privacy.html" class="btn btn-secondary">Privacy Policy</a>
+    </div>
+  </section>
+
+  <div class="preview">
+    <div class="preview-card">
+      <div class="stat-card">
+        <div class="stat-label">This month</div>
+        <div class="stat-value">$2,840</div>
+        <div class="stat-sub">14 expenses</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Currencies</div>
+        <div class="stat-value">JPY · USD</div>
+        <div class="stat-sub">Auto-converted</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Reports</div>
+        <div class="stat-value">PDF export</div>
+        <div class="stat-sub">Ready to submit</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Sync</div>
+        <div class="stat-value">CloudKit</div>
+        <div class="stat-sub">All your devices</div>
+      </div>
+    </div>
+  </div>
+
+  <section class="features">
+    <div class="section-label">Features</div>
+    <h2>Everything you need on the road</h2>
+    <div class="feature-grid">
+      <div class="feature-item">
+        <div class="feature-icon">💱</div>
+        <h3>Multi-currency support</h3>
+        <p>Automatically convert expenses from any currency using live exchange rates.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">📄</div>
+        <h3>PDF reports</h3>
+        <p>Generate clean expense reports ready to submit to your employer or accountant.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">☁️</div>
+        <h3>iCloud sync</h3>
+        <p>Your expenses stay in sync across all your Apple devices via CloudKit.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🗂️</div>
+        <h3>Categories & tags</h3>
+        <p>Organize expenses by category, project, or trip for easy reporting.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🧾</div>
+        <h3>Receipt capture</h3>
+        <p>Attach photos of receipts directly to each expense entry.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🔒</div>
+        <h3>Privacy first</h3>
+        <p>Your data stays on your devices and iCloud. No third-party servers.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2>Ready to simplify your expenses?</h2>
+    <p>Download Expense Rabbit free from the Mac App Store.</p>
+    <a href="#" class="btn btn-primary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      Download for Mac
+    </a>
+  </section>
+
+  <footer>
+    <span>© 2026 Expense Rabbit. All rights reserved.</span>
+    <a href="privacy.html">Privacy Policy</a>
+  </footer>
+
+</body>
+</html>
